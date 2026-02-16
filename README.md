@@ -1,63 +1,88 @@
-# Backend - Django REST API
+# SLPA Container Damage Detection System - Backend
 
-## Overview
-Django REST framework backend for the Truck Container Damage Detection System. Handles damage detection processing and API endpoints.
+## 🚀 Quick Start
 
-## Prerequisites
-- Python 3.10+
-- pip/conda package manager
+### Run in Terminal:
 
-## Installation
-
-### 1. Install Dependencies
+**Terminal 1 - Start Django:**
 ```bash
-pip install django djangorestframework django-cors-headers
+source .venv/bin/activate
+python manage.py runserver
 ```
 
-### 2. Database Setup (SQLite - Default)
-The project uses SQLite for development. No additional setup needed.
-
-### 3. Migrations (Optional)
+**Terminal 2 - Start phpMyAdmin:**
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+php -S localhost:8080 -t /opt/homebrew/share/phpmyadmin
 ```
 
-## Running the Server
+### Access in Browser:
 
-Start the development server on port 9000:
-```bash
-python manage.py runserver 9000
-```
+- **Django API**: http://localhost:8000
+- **Database (phpMyAdmin)**: http://localhost:8080
+  - Username: `root`
+  - Password: (leave empty)
+  - Database: `slpa_container_detection`
 
-The API will be available at: `http://localhost:9000`
+---
+
+## 📋 System Overview
+
+Django REST framework backend for Container Damage Detection using YOLO and MySQL database.
+
+## ⚙️ Tech Stack
+
+- **Framework**: Django 4.2.7 + Django REST Framework
+- **Database**: MySQL 9.6.0
+- **AI/ML**: PyTorch, Ultralytics YOLO, OpenCV
+- **Python**: 3.9+
 
 ## Project Structure
 ```
-Backend/
-├── core_api/           # Main Django configuration
-│   ├── settings.py     # Settings & database config
-│   ├── urls.py         # Main URL routing
-│   └── wsgi.py         # WSGI application
-├── damage_detection/   # Damage detection app
-│   ├── views.py        # API endpoints
-│   ├── urls.py         # App routing
-│   └── utils/          # ML pipeline utilities
-│       ├── yolo_damage.py
-│       └── pipeline.py
-└── manage.py           # Django management script
+SLPA-Container-Damage-Detection-System-Backend/
+├── core_api/              # Django configuration
+│   ├── settings.py        # MySQL database config
+│   └── urls.py            # URL routing
+├── damage_detection/      # Damage detection app
+│   ├── views.py           # API endpoints
+│   ├── urls.py           
+│   └── utils/
+│       ├── pipeline.py    # Detection pipeline
+│       └── yolo_damage.py # YOLO model
+├── .env                   # Database credentials
+├── manage.py              # Django management
+└── requirements.txt       # Python dependencies
 ```
 
-## API Endpoints
-- Coming soon - see `damage_detection/views.py`
+## 🗄️ Database
 
-## Configuration
-Edit `core_api/settings.py` to:
-- Change database (currently SQLite)
-- Add/remove installed apps
-- Configure CORS origins (default: localhost:5173)
+**MySQL Database**: `slpa_container_detection`
 
-## Future: MySQL Setup
+**View in Terminal:**
+```bash
+mysql -u root slpa_container_detection
+```
+
+**View in Browser:**
+```bash
+# Access phpMyAdmin at: http://localhost:8080
+```
+
+## 🛑 Stop Servers
+
+Press `Ctrl + C` in both terminal windows
+
+---
+
+## 📚 Documentation
+
+- **[SIMPLE_START.md](SIMPLE_START.md)** - Quick start guide (recommended)
+- [HOW_TO_RUN.md](HOW_TO_RUN.md) - Detailed instructions
+- [WINDOWS_SETUP.md](WINDOWS_SETUP.md) - Windows setup guide
+- [DATABASE_ACCESS_GUIDE.md](DATABASE_ACCESS_GUIDE.md) - Database access methods
+
+---
+
+**That's all you need to get started!** 🎉
 When ready to use MySQL:
 1. Install: `pip install mysqlclient`
 2. Update `DATABASES` in `core_api/settings.py` with MySQL credentials
