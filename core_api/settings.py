@@ -127,6 +127,15 @@ CORS_ALLOWED_ORIGINS = [
     os.getenv('CORS_ORIGIN_4', 'http://127.0.0.1:3000'),
 ]
 
+# Matches the Vite dev server reached from any private LAN IP (phone on Wi-Fi via
+# Expo WebView), so this keeps working when the machine's IP changes or the app
+# runs from a different laptop/network, without hardcoding any specific address.
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'^http://192\.168\.\d{1,3}\.\d{1,3}:5173$',
+    r'^http://10\.\d{1,3}\.\d{1,3}\.\d{1,3}:5173$',
+    r'^http://172\.(1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3}:5173$',
+]
+
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_HEADERS = [

@@ -6,8 +6,8 @@
 
 **Terminal 1 - Start Django:**
 ```bash
-venv\Scripts\activate    
-python manage.py runserver 0.0.0.0:9000
+source .venv/bin/activate
+python manage.py runserver
 ```
 
 **Terminal 2 - Start phpMyAdmin:**
