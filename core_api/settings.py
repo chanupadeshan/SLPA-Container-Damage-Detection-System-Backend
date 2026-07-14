@@ -125,7 +125,6 @@ CORS_ALLOWED_ORIGINS = [
     os.getenv('CORS_ORIGIN_2', 'http://127.0.0.1:5173'),
     os.getenv('CORS_ORIGIN_3', 'http://localhost:3000'),
     os.getenv('CORS_ORIGIN_4', 'http://127.0.0.1:3000'),
-    os.getenv('CORS_ORIGIN_5', 'http://192.168.1.19:5173'),  # phone on Wi-Fi via Expo WebView
 ]
 
 CORS_ALLOW_CREDENTIALS = True
