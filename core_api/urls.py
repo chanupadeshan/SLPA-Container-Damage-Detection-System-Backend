@@ -15,19 +15,20 @@ def home(request):
                 "register": "/api/auth/register/",
                 "login": "/api/auth/login/",
                 "logout": "/api/auth/logout/",
-                "profile": "/api/auth/profile/"
+                "profile": "/api/auth/profile/",
             },
             "damage_detection": "/api/detect/",
-            "admin": "/admin/"
-        }
+            "ocr_container": "/api/ocr-container/",
+            "admin": "/admin/",
+        },
     })
 
 
 urlpatterns = [
-    path('', home, name='home'),
-    path('admin/', admin.site.urls),
-    path('api/', include('damage_detection.urls')),
-    path('api/auth/', include('authentication.urls')),
+    path("", home, name="home"),
+    path("admin/", admin.site.urls),
+    path("api/", include("damage_detection.urls")),
+    path("api/auth/", include("authentication.urls")),
 ]
 
 if settings.DEBUG:

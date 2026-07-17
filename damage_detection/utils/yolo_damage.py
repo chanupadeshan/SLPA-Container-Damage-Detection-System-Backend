@@ -1,6 +1,5 @@
 import os
 import numpy as np
-from ultralytics import YOLO
 from django.conf import settings
 
 _damage_model = None
@@ -9,6 +8,8 @@ _damage_model = None
 def get_damage_model():
     global _damage_model
     if _damage_model is None:
+        from ultralytics import YOLO
+
         # Construct path relative to this file's directory to be more robust
         current_dir = os.path.dirname(os.path.abspath(__file__))
         # pipeline.py is in Backend/damage_detection/utils/
@@ -32,9 +33,26 @@ def get_damage_model():
 
         print(f"[YOLO] Loading damage model: {model_path}")
         try:
-            _damage_model = YOLO(model_path)
-            # Use GPU if available
             import torch
+            # PyTorch 2.6+ defaults weights_only=True, which blocks Ultralytics
+            # checkpoints. This is our own trusted local model file.
+            try:
+                from ultralytics.nn.tasks import DetectionModel
+                torch.serialization.add_safe_globals([DetectionModel])
+            except Exception:
+                pass
+            _orig_torch_load = torch.load
+
+            def _torch_load_trusted(*args, **kwargs):
+                kwargs.setdefault("weights_only", False)
+                return _orig_torch_load(*args, **kwargs)
+
+            torch.load = _torch_load_trusted
+            try:
+                _damage_model = YOLO(model_path)
+            finally:
+                torch.load = _orig_torch_load
+
             device = "cuda" if torch.cuda.is_available() else "cpu"
             _damage_model.to(device)
             print(f"[YOLO] Model loaded successfully on {device}.")
@@ -45,7 +63,7 @@ def get_damage_model():
     return _damage_model
 
 
-def run_damage_detection(image_rgb: np.ndarray, conf: float = 0.25):
+def run_damage_detection(image_rgb: np.ndarray, conf: float = 0.00):
     """
     image_rgb: numpy array (H,W,3) uint8 RGB
     returns: list of {label, confidence, box(normalized xyxy)}

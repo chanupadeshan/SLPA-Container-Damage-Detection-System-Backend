@@ -6,12 +6,12 @@ echo   Starting Django Server
 echo ========================================
 echo.
 echo Django API will be available at:
-echo   http://localhost:8000
+echo   http://localhost:9000
 echo.
 echo Django Admin Panel:
-echo   http://localhost:8000/admin
+echo   http://localhost:9000/admin
 echo.
-echo Database: MySQL (slpa_container_detection)
+echo Database: SQLite by default (set DB_ENGINE=mysql for MySQL)
 echo.
 echo ========================================
 echo Press Ctrl+C to stop the server
@@ -25,6 +25,7 @@ REM Check if virtual environment exists
 if not exist "venv\Scripts\activate.bat" (
     echo ERROR: Virtual environment not found!
     echo Please run: python -m venv venv
+    echo Then: venv\Scripts\activate ^&^& pip install -r requirements.txt
     pause
     exit /b 1
 )
@@ -39,10 +40,10 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM Run Django server
-echo Starting Django...
+REM Run Django server on port 9000 (matches frontend default)
+echo Starting Django on 0.0.0.0:9000...
 echo.
-python manage.py runserver
+python manage.py runserver 0.0.0.0:9000
 
 REM Keep window open if there's an error
 if errorlevel 1 (
